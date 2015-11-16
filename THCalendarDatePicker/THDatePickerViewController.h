@@ -32,6 +32,8 @@
 +(THDatePickerViewController *)datePicker;
 
 @property (strong, nonatomic) NSDate * date;
+@property (strong, nonatomic) NSDate *dateLimitBot;
+@property (strong, nonatomic) NSDate *dateLimitTop;
 @property (weak, nonatomic) id<THDatePickerDelegate> delegate;
 @property (strong, nonatomic) UIColor *selectedBackgroundColor;
 @property (strong, nonatomic) UIColor *currentDateColor;
