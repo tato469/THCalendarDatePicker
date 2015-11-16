@@ -32,8 +32,8 @@
 +(THDatePickerViewController *)datePicker;
 
 @property (strong, nonatomic) NSDate * date;
-@property (strong, nonatomic) NSDate *dateLimitBot;
-@property (strong, nonatomic) NSDate *dateLimitTop;
+@property (strong, nonatomic) NSDate *bottomLimitDate;
+@property (strong, nonatomic) NSDate *topLimitDate;
 @property (weak, nonatomic) id<THDatePickerDelegate> delegate;
 @property (strong, nonatomic) UIColor *selectedBackgroundColor;
 @property (strong, nonatomic) UIColor *currentDateColor;
@@ -62,6 +62,12 @@
  * \param beTodayButton should use "clear date" button as today
  */
 - (void)setClearAsToday:(BOOL)beTodayButton;
+
+/*! Enable Ok Button when selected Date is between bottom and top limits dates
+ * \param bottomDate bottom limit date
+ * \param topDate top limit date
+ */
+- (void) setBottomLimitDate:(NSDate *)bottomDate andTopLimitDate:(NSDate *)topDate;
 
 /*! Should the view be closed on selection of a date
  * \param autoClose should close view on selection
@@ -109,5 +115,6 @@
  * \param dateTitle     calendar title
  */
 - (void)setDateTitle:(NSString*)dateTitle;
+
 
 @end
