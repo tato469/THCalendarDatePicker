@@ -1,11 +1,16 @@
-THCalendarDatePicker
+THCalendarDatePicker (tato469 version)
 ===
-
 [![Build Status](https://travis-ci.org/hons82/THCalendarDatePicker.png)](https://travis-ci.org/hons82/THCalendarDatePicker)
 [![Pod Version](http://img.shields.io/cocoapods/v/THCalendarDatePicker.svg?style=flat)](http://cocoadocs.org/docsets/THCalendarDatePicker/)
 [![Pod Platform](http://img.shields.io/cocoapods/p/THCalendarDatePicker.svg?style=flat)](http://cocoadocs.org/docsets/THCalendarDatePicker/)
 [![Pod License](http://img.shields.io/cocoapods/l/THCalendarDatePicker.svg?style=flat)](http://opensource.org/licenses/MIT)
 [![Coverage Status](https://coveralls.io/repos/hons82/THCalendarDatePicker/badge.svg)](https://coveralls.io/r/hons82/THCalendarDatePicker)
+
+### Changes added
+- Added the option to allow pick only dates inside a date interval. Or
+establish a minimum and maximum date.
+
+
 
 This control is based on the [datepicker-ios](https://github.com/ccwasden/datepicker-ios) control combined with the [KNSemiModalViewController](https://github.com/kentnguyen/KNSemiModalViewController).
 
