@@ -67,6 +67,8 @@
 @synthesize rounded = _rounded;
 @synthesize historyFutureBasedOnInternal = _historyFutureBasedOnInternal;
 @synthesize slideAnimationDuration = _slideAnimationDuration;
+@synthesize dateLimitBottom = _dateLimitBottom;
+@synthesize dateLimitTop = _dateLimitTop;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -374,11 +376,30 @@
 }
 
 - (BOOL)shouldOkBeEnabled {
+    
+    BOOL toReturn = NO;
+    
     if (_autoCloseOnSelectDate)
-        return YES;
-    return (self.internalDate && _dateNoTime && (_allowSelectionOfSelectedDate || [self.internalDate timeIntervalSinceDate:_dateNoTime]))
+        toReturn = YES;
+    toReturn = (self.internalDate && _dateNoTime && (_allowSelectionOfSelectedDate || [self.internalDate timeIntervalSinceDate:_dateNoTime]))
     || (self.internalDate && !_dateNoTime)
     || (!self.internalDate && _dateNoTime);
+    
+    if(_dateLimitBottom != nil && self.dateLimitTop != nil)
+    {
+        if([_date timeIntervalSinceDate:_dateLimitBottom] >= 0 && [_date timeIntervalSinceDate:_dateLimitTop] <= 0)
+            toReturn = true;
+        else
+            toReturn = false;
+    }
+    else
+    {
+        float diff = (_dateLimitBottom != nil)? [_date timeIntervalSinceDate:_dateLimitBottom] : [_date timeIntervalSinceDate:_dateLimitTop];
+        toReturn = (_dateLimitBottom != nil)? diff>0 : diff<0;
+    }
+    
+    return toReturn;
+    
 }
 
 - (void)setInternalDate:(NSDate *)internalDate{
