@@ -67,8 +67,8 @@
 @synthesize rounded = _rounded;
 @synthesize historyFutureBasedOnInternal = _historyFutureBasedOnInternal;
 @synthesize slideAnimationDuration = _slideAnimationDuration;
-@synthesize dateLimitBottom = _dateLimitBottom;
-@synthesize dateLimitTop = _dateLimitTop;
+@synthesize bottomLimitDate = _bottomLimitDate;
+@synthesize topLimitDate = _topLimitDate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -105,6 +105,12 @@
         [self setAllowClearDate:beTodayButton];
     }
     _clearAsToday = beTodayButton;
+}
+
+- (void) setBottomLimitDate:(NSDate *)bottomDate andTopLimitDate:(NSDate *)topDate
+{
+    _bottomLimitDate = bottomDate;
+    _topLimitDate = topDate;
 }
 
 - (void)setAutoCloseOnSelectDate:(BOOL)autoClose {
@@ -144,6 +150,7 @@
 - (void)setDisableYearSwitch:(BOOL)disableYearSwitch {
     _disableYearSwitch = disableYearSwitch;
 }
+
 
 #pragma mark - View Management
 
@@ -381,21 +388,24 @@
     
     if (_autoCloseOnSelectDate)
         toReturn = YES;
-    toReturn = (self.internalDate && _dateNoTime && (_allowSelectionOfSelectedDate || [self.internalDate timeIntervalSinceDate:_dateNoTime]))
-    || (self.internalDate && !_dateNoTime)
-    || (!self.internalDate && _dateNoTime);
+    else
+        toReturn = (self.internalDate && _dateNoTime && (_allowSelectionOfSelectedDate || [self.internalDate timeIntervalSinceDate:_dateNoTime]))
+        || (self.internalDate && !_dateNoTime)
+        || (!self.internalDate && _dateNoTime);
     
-    if(_dateLimitBottom != nil && self.dateLimitTop != nil)
+    if(_bottomLimitDate != nil && _topLimitDate != nil)
     {
-        if([_date timeIntervalSinceDate:_dateLimitBottom] >= 0 && [_date timeIntervalSinceDate:_dateLimitTop] <= 0)
-            toReturn = true;
+        NSTimeInterval bottomDiff = [self.internalDate timeIntervalSinceDate:_bottomLimitDate];
+        NSTimeInterval topDiff = [self.internalDate timeIntervalSinceDate:_topLimitDate];
+        if(bottomDiff >= 0 && topDiff <= 0)
+            toReturn = toReturn && YES;
         else
-            toReturn = false;
+            toReturn = toReturn && NO;
     }
     else
     {
-        float diff = (_dateLimitBottom != nil)? [_date timeIntervalSinceDate:_dateLimitBottom] : [_date timeIntervalSinceDate:_dateLimitTop];
-        toReturn = (_dateLimitBottom != nil)? diff>0 : diff<0;
+        float diff = (_bottomLimitDate != nil)? [self.internalDate timeIntervalSinceDate:_bottomLimitDate] : [self.internalDate timeIntervalSinceDate:_topLimitDate];
+        toReturn = (_bottomLimitDate != nil)? toReturn && diff>0 : toReturn && diff<0;
     }
     
     return toReturn;
